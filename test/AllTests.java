@@ -1,4 +1,4 @@
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -78,6 +78,39 @@ public class AllTests {
 			PlayerStats filePlayer = gson.fromJson(builder.toString(), PlayerStats.class);
 			System.out.println(gson.toJson(filePlayer));
 		}
+	}
+	
+	@Test
+	public void testRandomNum()
+	{
+		VariableHolder v = VariableHolder.getInstance();
+		int count = 0;
+		int a = v.popD20();
+		int b = v.popD20();
+		int min = 20;
+		int max = 1;
+		
+		while( count < 1000 )
+		{
+			//System.out.println(a);
+			while( a == b )
+			{
+				b = v.popD20();
+			}
+			a = b;
+			if ( a > max )
+			{
+				max = a;
+			}
+			if ( a < min )
+			{
+				min = a;
+			}
+			count++;
+		}
+		assertTrue(min > 0);
+		assertTrue(max < 21);
+		System.out.println(min+","+max);
 	}
 
 }
