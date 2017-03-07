@@ -1,2 +1,2 @@
-/PBPParser/nbproject/private/
-/PBPParser/build/
+/build/**
+/.gradle/**
