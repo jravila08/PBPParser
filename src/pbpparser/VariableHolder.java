@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package filehandler;
+package pbpparser;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 /**
  * I know a singleton is probably overkill here but oh well
+ * 
+ * This class will hold all of the variables that the rest of the service needs
+ * paths, file names, ect
  * @author jravi
  */
 public class VariableHolder {
 	
-	//a csv file of d20 rolls to be used as random numbers
-	private static final String d20FileName = "d20rolls.txt";
+	//The overall game control file is in the main folder with this name
+	public final String d20FileName = "gameStats.txt";
     
     private static VariableHolder myInstance;
     
@@ -62,20 +64,6 @@ public class VariableHolder {
     public String getGamePath()
     {
         return myGamePath;
-    }
-    
-    /**
-     * get a d20 roll from the list.  If there are none left gen a random number
-     * @return a random number 1 - 20
-     */
-    public int popD20()
-    {
-    	if ( d20List.size() > 0 )
-    	{
-    		return d20List.pop().intValue();
-    	}
-    	Random r = new Random();
-    	return r.nextInt(20)+1;
     }
     
 }

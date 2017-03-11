@@ -15,10 +15,8 @@
  */
 package pbpparser;
 
-import filehandler.VariableHolder;
-
 /**
- *
+ * kick off the processing
  * @author jravi
  */
 public class PBPGame {

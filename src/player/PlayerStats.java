@@ -16,6 +16,7 @@
 package player;
 
 /**
+ * this file will hold all of the information on a single given player
  *
  * @author jravi
  */
@@ -24,6 +25,7 @@ public class PlayerStats {
     public int intel;
     public int pr;
     public int str;
+    public int brave;
     public int luck;
     
 }

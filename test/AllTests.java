@@ -1,15 +1,13 @@
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import filehandler.VariableHolder;
+import filehandler.GameScoreReader;
+import filehandler.PlayerFileReader;
+import game.GameVariables;
 import player.PlayerStats;
 
 public class AllTests {
@@ -35,69 +33,34 @@ public class AllTests {
 		assertEquals(start.luck,filePlayer.luck);
 		assertEquals(start.pr,filePlayer.pr);
 	}
-
-	@Test
-	public void printFile()
-	{
-		BufferedReader br = null;
-		FileReader fr = null;
-		VariableHolder v = VariableHolder.getInstance();
-
-		StringBuilder builder = new StringBuilder();
-
-		try 
-		{
-			fr = new FileReader(v.getGamePath() + "/zugdush.txt");
-			br = new BufferedReader(fr);
-
-			String sCurrentLine;
-
-			while ((sCurrentLine = br.readLine()) != null) {
-				builder.append(sCurrentLine);
-			}
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
-		} finally 
-		{
-			try 
-			{
-				if (br != null)
-					br.close();
-				if (fr != null)
-					fr.close();
-			} catch (IOException ex) 
-			{
-				ex.printStackTrace();
-			}
-		}
-		if ( builder.length() > 0 )
-		{
-			GsonBuilder gbuilder = new GsonBuilder();
-			Gson gson = gbuilder.create();
-			PlayerStats filePlayer = gson.fromJson(builder.toString(), PlayerStats.class);
-			System.out.println(gson.toJson(filePlayer));
-		}
-	}
 	
 	@Test
-	public void testRandomNum()
+	public void testPlayerReader()
 	{
-		VariableHolder v = VariableHolder.getInstance();
+		PlayerFileReader pfr = new PlayerFileReader();
+		PlayerStats stats = pfr.getPlayerStats();
+		assertTrue(stats.intel > 0);
+		assertTrue(stats.luck > 0);
+		assertTrue(!stats.name.isEmpty());
+		assertTrue(stats.pr > 0);
+		assertTrue(stats.str > 0);
+		assertTrue(stats.brave > 0);
+	}
+
+	@Test
+	public void printDiceFile()
+	{
+		GameScoreReader gsReader = new GameScoreReader();
+		GameVariables dice = gsReader.getGameVariables();
+
+		System.out.println(dice);
 		int count = 0;
-		int a = v.popD20();
-		int b = v.popD20();
 		int min = 20;
-		int max = 1;
+		int max = 0;
 		
-		while( count < 1000 )
+		while( dice.hasMoreD20() )
 		{
-			//System.out.println(a);
-			while( a == b )
-			{
-				b = v.popD20();
-			}
-			a = b;
+			int a = dice.getD20Roll();
 			if ( a > max )
 			{
 				max = a;
@@ -110,7 +73,6 @@ public class AllTests {
 		}
 		assertTrue(min > 0);
 		assertTrue(max < 21);
-		System.out.println(min+","+max);
+		System.out.println(min+","+max+","+count);
 	}
-
 }
