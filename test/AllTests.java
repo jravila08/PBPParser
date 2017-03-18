@@ -1,78 +1,82 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import org.junit.Test;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import filehandler.GameScoreReader;
-import filehandler.PlayerFileReader;
+import filehandler.FolderManager;
+import filehandler.GameScoreHandler;
+import filehandler.PlayerFileHandler;
 import game.GameVariables;
+import pbpparser.VariableHolder;
+import player.LuckCalculator;
 import player.PlayerStats;
+import player.WeeklyScore;
 
 public class AllTests {
-
+	
 	@Test
-	public void convertJsonTest()
+	public void gameWriteReadTest()
 	{
-		PlayerStats start = new PlayerStats();
-		start.name = "Test";
-		start.intel = 9001;
-		start.str = 9001;
-		start.luck = 9001;
-		start.pr = 9001;
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
-		String javaToJson = gson.toJson(start);
-
-		PlayerStats filePlayer = gson.fromJson(javaToJson, PlayerStats.class);
-
-		assertEquals(start.name,filePlayer.name);
-		assertEquals(start.intel,filePlayer.intel);
-		assertEquals(start.str,filePlayer.str);
-		assertEquals(start.luck,filePlayer.luck);
-		assertEquals(start.pr,filePlayer.pr);
+		String testFileName = "gameTestFile.txt";
+		GameVariables gv = new GameVariables();
+		
+		LinkedList<Integer> D20 = new LinkedList<Integer>();
+		for(int x = 10; x < 20; x++)
+		{
+			D20.push(new Integer(x));
+		}
+		LinkedList<Integer> D4 = new LinkedList<Integer>();
+		for(int x = 1; x < 5; x++)
+		{
+			D4.push(new Integer(x));
+		}
+		
+		gv.setD20(D20);
+		gv.setD4(D4);
+		
+		GameScoreHandler gsh = new GameScoreHandler();
+		gsh.writeOutToFile(testFileName, gv);
+		
+		GameVariables gvReadFromFile = gsh.readGameVariables(testFileName);
+		
+		while(gv.hasMoreD20())
+		{
+			assertTrue(gv.getD20Roll() == gvReadFromFile.getD20Roll());
+		}
+		
+		while(gv.hasMoreD4())
+		{
+			assertTrue(gv.getD4Roll() == gvReadFromFile.getD4Roll());
+		}
 	}
 	
 	@Test
-	public void testPlayerReader()
+	public void playerWriteReadTest()
 	{
-		PlayerFileReader pfr = new PlayerFileReader();
-		PlayerStats stats = pfr.getPlayerStats();
-		assertTrue(stats.intel > 0);
-		assertTrue(stats.luck > 0);
-		assertTrue(!stats.name.isEmpty());
-		assertTrue(stats.pr > 0);
-		assertTrue(stats.str > 0);
-		assertTrue(stats.brave > 0);
-	}
-
-	@Test
-	public void printDiceFile()
-	{
-		GameScoreReader gsReader = new GameScoreReader();
-		GameVariables dice = gsReader.getGameVariables();
-
-		System.out.println(dice);
-		int count = 0;
-		int min = 20;
-		int max = 0;
+		PlayerStats player = new PlayerStats();
+		player.populateTestObject();
+	
+		PlayerFileHandler pFile = new PlayerFileHandler();
 		
-		while( dice.hasMoreD20() )
+		pFile.writeOutToFile(player.getName() + ".txt",player);
+		
+		PlayerStats readPlayer = pFile.readPlayerFile(player.getName() + ".txt");
+		
+		assertNotNull(readPlayer);
+	}
+	
+	@Test
+	public void testFolderManager()
+	{
+		FolderManager fm = new FolderManager();
+		for ( String s : fm.getFolders() )
 		{
-			int a = dice.getD20Roll();
-			if ( a > max )
-			{
-				max = a;
-			}
-			if ( a < min )
-			{
-				min = a;
-			}
-			count++;
+			System.out.println("Active players with folders: " + s);
 		}
-		assertTrue(min > 0);
-		assertTrue(max < 21);
-		System.out.println(min+","+max+","+count);
+		
+		System.out.println(fm.getGameVariables());
+		System.out.println(fm.getPlayerList());
 	}
 }

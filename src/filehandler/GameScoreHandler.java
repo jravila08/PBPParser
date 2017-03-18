@@ -1,7 +1,9 @@
 package filehandler;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -18,21 +20,23 @@ import pbpparser.VariableHolder;
  * @author jravi
  *
  */
-public class GameScoreReader {
+public class GameScoreHandler {
 	
-	private final Logger log = LoggerFactory.getLogger(GameScoreReader.class);
+	private final Logger log = LoggerFactory.getLogger(GameScoreHandler.class);
 	
 	private static VariableHolder myInstance;
-
-	//game variables, dice event difficulties ect
-	private GameVariables gameVariables;
-
+	
 	/**
 	 * read in the game file and parse into a POJO
 	 */
-	public GameScoreReader()
+	public GameScoreHandler()
 	{
 		myInstance = VariableHolder.getInstance();
+	}
+	
+	public GameVariables readGameVariables(String fileName)
+	{
+		GameVariables gameVariables = null;
 
 		BufferedReader br = null;
 		FileReader fr = null;
@@ -42,7 +46,7 @@ public class GameScoreReader {
 		try 
 		{
 			//read in the file
-			fr = new FileReader(myInstance.getGamePath() + "/" + myInstance.d20FileName);
+			fr = new FileReader(myInstance.getGamePath() + "/" + fileName);
 			br = new BufferedReader(fr);
 
 			String sCurrentLine;
@@ -52,7 +56,6 @@ public class GameScoreReader {
 			}
 		} catch (IOException e) 
 		{
-			gameVariables = null;
 			log.error("Unable to read in game file.  Check that -Dfile.path is set correctly");
 			e.printStackTrace();
 		} finally 
@@ -74,15 +77,42 @@ public class GameScoreReader {
 			Gson gson = gbuilder.create();
 			gameVariables = gson.fromJson(builder.toString(), GameVariables.class);
 		}
-
-	}
-
-	/**
-	 * get the GameVariables object that is populated in the constructor
-	 * @return GameVariables populated from the game file
-	 */
-	public GameVariables getGameVariables() {
 		return gameVariables;
+	}
+	
+	public boolean writeOutToFile(String fileName, GameVariables gameVar)
+	{
+		boolean success = false;
+		//each player file will have its own obj so set player = playerStats
+		GsonBuilder gbuilder = new GsonBuilder();
+		Gson gson = gbuilder.setPrettyPrinting().create();
+		String stringToPrintToFile = gson.toJson(gameVar);
+		
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		
+		try {
+			fw = new FileWriter(myInstance.getGamePath() + "/" + fileName);
+			bw = new BufferedWriter(fw);
+			
+			bw.write(stringToPrintToFile);
+			success = true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally 
+		{
+			try 
+			{
+				if (bw != null)
+					bw.close();
+				if (fw != null)
+					fw.close();
+			} catch (IOException ex) 
+			{
+				ex.printStackTrace();
+			}
+		}
+		return success;
 	}
 
 }

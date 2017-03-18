@@ -15,8 +15,6 @@
  */
 package pbpparser;
 
-import java.util.LinkedList;
-
 /**
  * I know a singleton is probably overkill here but oh well
  * 
@@ -34,20 +32,17 @@ public class VariableHolder {
     //path to the game folder
     private String myGamePath;
     
-    //This will hold the list of rolls to be used as random numbers
-    private LinkedList<Integer> d20List;
+    public static enum WeeklyStat {
+        INTEL,
+        PR,
+        STR,
+        BRAVE;
+    }
     
     private VariableHolder()
     {
         myGamePath = System.getProperty("file.path","/home/");
-        d20List = new LinkedList<Integer>();
-        this.populateD20List();
     }
-    
-    
-    private void populateD20List() {
-		// TODO Auto-generated method stub
-	}
 
 	public static VariableHolder getInstance() {
         if ( myInstance == null )
