@@ -68,5 +68,35 @@ public class FolderManager {
 		return myGameScore;
 	}
 	
+	
+	public boolean createNewCharacterDir(PlayerStats player) 
+	{
+		if( !player.valid() )
+		{
+			return false;
+		}
+		//check if dir already exists
+		File charDir;
+		
+		charDir = new File(myInstance.getGamePath() + "/" + player.getName() );
+		
+		//return if dir already exists since this means the player is not new
+		if ( charDir.exists() )
+		{
+			return false;
+		}
+		
+		try
+		{
+			charDir.mkdir();
+		} catch( SecurityException e )
+		{
+			log.error("Could not make dir: " + e.getMessage());
+			return false;
+		}
+		
+		PlayerFileHandler pHandler = new PlayerFileHandler();
+		return pHandler.writeOutToFile(player.getName() + "/" + player.getName() + ".txt" , player);
+	}
 
 }

@@ -106,7 +106,7 @@ public class PlayerStats {
 	}
 
 	public void populateTestObject() {
-		this.name = "test";
+		this.name = "testPlayer";
 		this.intel = 10;
 		this.pr = 10;
 		this.str = 10;
@@ -118,6 +118,20 @@ public class PlayerStats {
 
 		weeklyScores.add(w1);
 		weeklyScores.add(w1);
+	}
+
+	public boolean valid() {
+		// TODO Auto-generated method stub
+		if( !this.name.isEmpty() &&
+			 this.brave != 0     &&
+			 this.intel != 0     &&
+			 this.luck  != 0     &&
+			 this.pr    != 0     &&
+			 this.str   != 0 )
+		{
+			return true;
+		}
+		return false;
 	}
     
 }

@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -78,5 +79,27 @@ public class AllTests {
 		
 		System.out.println(fm.getGameVariables());
 		System.out.println(fm.getPlayerList());
+	}
+	
+	@Test
+	public void createNewPlayerHierarchy()
+	{
+		FolderManager fm = new FolderManager();
+		PlayerStats player = new PlayerStats();
+		player.populateTestObject();
+		
+		assertTrue(fm.createNewCharacterDir(player));
+		
+		File f = new File(VariableHolder.getInstance().getGamePath() + "/" + player.getName());
+		
+		assertTrue(f.isDirectory());
+		
+		File f2 = new File(VariableHolder.getInstance().getGamePath() + "/" + player.getName() 
+						+ "/" + player.getName() + ".txt");
+		
+		assertTrue(f2.isFile());
+		
+		f2.delete();
+		f.delete();
 	}
 }
