@@ -20,26 +20,28 @@ import java.util.LinkedList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import pbpparser.VariableHolder;
+
 /**
  * this file will hold all of the information on a single given player
  *
  * @author jravi
  */
 public class PlayerStats {
-    private String name;
-    private int intel;
-    private int pr;
-    private int str;
-    private int brave;
-    private int luck;
-    
+	private String name;
+	private int intel;
+	private int pr;
+	private int str;
+	private int brave;
+	private int luck;
+
 	private LinkedList<WeeklyScore> weeklyScores;
-    
-    public PlayerStats() {
-    	weeklyScores = new LinkedList<WeeklyScore>();
-    }
-    
-    public String getName() {
+
+	public PlayerStats() {
+		weeklyScores = new LinkedList<WeeklyScore>();
+	}
+
+	public String getName() {
 		return name;
 	}
 
@@ -94,7 +96,29 @@ public class PlayerStats {
 	public void setWeeklyScores(LinkedList<WeeklyScore> weeklyScores) {
 		this.weeklyScores = weeklyScores;
 	}
-    
+	
+	public void addWeeklyScores(WeeklyScore weeklyScores) {
+		this.weeklyScores.add(weeklyScores);
+	}
+
+	public int getStatFromEnum(VariableHolder.WeeklyStat stat)
+	{
+		switch(stat)
+		{
+			case INTEL:
+				return intel;
+			case PR:
+				return pr;
+			case STR:
+				return str;
+			case BRAVE:
+				return brave;
+			default:
+				return 0;
+		}
+
+	}
+
 	/**
 	 * print out as a json file
 	 */
@@ -112,7 +136,7 @@ public class PlayerStats {
 		this.str = 10;
 		this.brave = 10;
 		this.luck = 10;
-		
+
 		WeeklyScore w1 = new WeeklyScore();
 		w1.populateTestObject();
 
@@ -123,15 +147,15 @@ public class PlayerStats {
 	public boolean valid() {
 		// TODO Auto-generated method stub
 		if( !this.name.isEmpty() &&
-			 this.brave != 0     &&
-			 this.intel != 0     &&
-			 this.luck  != 0     &&
-			 this.pr    != 0     &&
-			 this.str   != 0 )
+				this.brave != 0     &&
+				this.intel != 0     &&
+				this.luck  != 0     &&
+				this.pr    != 0     &&
+				this.str   != 0 )
 		{
 			return true;
 		}
 		return false;
 	}
-    
+
 }

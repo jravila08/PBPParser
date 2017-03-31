@@ -105,4 +105,12 @@ public class LuckCalculator {
 	public void setRerollsLeft(int rerollsLeft) {
 		this.rerollsLeft = rerollsLeft;
 	}
+	
+	public String toString()
+	{
+		String ret = "rerollsLeft: " + rerollsLeft +
+					 "\ntotalRerollCount: " + totalRerollCount +
+					 "\nrerollIfRollBelow: " + rerollIfRollBelow;
+		return ret;
+	}
 }

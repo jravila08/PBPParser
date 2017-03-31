@@ -136,4 +136,14 @@ public class WeeklyScore {
 
     	this.scoreForThisWeek = 10;
     }
+    
+    public String toString()
+    {
+    	String ret = "primaryStatForWeek: " + primaryStatForWeek +
+    				 "\nsecondaryStatForWeek: " + secondaryStatForWeek +
+    				 "\nscoreForThisWeek: " + scoreForThisWeek + 
+    				 "\nluckCalculator" + luckCalculator +
+    				 "\nd20Rolls: " + d20Rolls ;
+    	return ret;
+    }
 }

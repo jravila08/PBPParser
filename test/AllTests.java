@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 
+import event.EventManager;
 import filehandler.FolderManager;
 import filehandler.GameScoreHandler;
 import filehandler.PlayerFileHandler;
@@ -101,5 +102,12 @@ public class AllTests {
 		
 		f2.delete();
 		f.delete();
+	}
+	
+	@Test
+	public void testEvent()
+	{
+		EventManager evt = new EventManager();
+		evt.startNewEvent();
 	}
 }

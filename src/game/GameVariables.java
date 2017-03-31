@@ -89,4 +89,24 @@ public class GameVariables {
 	{
 		D4 = d4;
 	}
+	
+	public int getCurrentWeek()
+	{
+		return currentWeek;
+	}
+	
+	public void incCurrentWeek()
+	{
+		currentWeek += 1;
+	}
+	
+	public void setThisWeeksStatOfTheWeek(VariableHolder.WeeklyStat stat)
+	{
+		statOfTheWeek.add(stat);
+	}
+	
+	public VariableHolder.WeeklyStat getLastestStatOfTheWeek()
+	{
+		return statOfTheWeek.get(statOfTheWeek.size()-1);
+	}
 }
