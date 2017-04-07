@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import core.VariableHolder;
 import game.GameVariables;
-import pbpparser.VariableHolder;
 
 /**
  * This will read in the file with all the dice rolls, event power lvls ect

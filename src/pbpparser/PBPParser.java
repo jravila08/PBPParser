@@ -25,8 +25,10 @@ public class PBPParser {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        PBPGame myGame = new PBPGame();
-        myGame.start();
+//        PBPGame myGame = new PBPGame();
+//        myGame.start();
+    	ScannerManager scm = new ScannerManager();
+    	scm.start();
     }
     
 }

@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import pbpparser.VariableHolder;
+import core.VariableHolder;
 
 /**
  * this file will hold all of the information on a single given player
@@ -39,6 +39,16 @@ public class PlayerStats {
 
 	public PlayerStats() {
 		weeklyScores = new LinkedList<WeeklyScore>();
+	}
+	
+	public PlayerStats(String name, int intel, int pr, int str, int brave, int luck) {
+		weeklyScores = new LinkedList<WeeklyScore>();
+		this.name = name;
+		this.intel = intel;
+		this.pr = pr;
+		this.str = str;
+		this.brave = brave;
+		this.luck = luck;
 	}
 
 	public String getName() {
@@ -156,6 +166,15 @@ public class PlayerStats {
 			return true;
 		}
 		return false;
+	}
+
+	public int getScore() {
+		int totalScore = 0;
+		for(WeeklyScore w: weeklyScores)
+		{
+			totalScore += w.getScoreForThisWeek();
+		}
+		return totalScore;
 	}
 
 }

@@ -1,8 +1,8 @@
 package event;
 
+import core.VariableHolder;
+import core.VariableHolder.WeeklyStat;
 import filehandler.FolderManager;
-import pbpparser.VariableHolder;
-import pbpparser.VariableHolder.WeeklyStat;
 import player.LuckCalculator;
 import player.PlayerStats;
 import player.WeeklyScore;
@@ -15,13 +15,15 @@ public class EventManager {
 	{
 		fm = new FolderManager();
 	}
-
-	public boolean startNewEvent()
+	
+	public EventManager(FolderManager fm) 
 	{
-		fm.getGameVariables().incCurrentWeek();
-		
-		//TODO THIS NEEDS TO BE SET A CERTAIN WAY
-		fm.getGameVariables().setThisWeeksStatOfTheWeek(WeeklyStat.BRAVE);
+		this.fm = fm;
+	}
+
+	public boolean startNewEvent(WeeklyStat primeStat)
+	{
+		this.primeNewEvent(primeStat);
 
 		VariableHolder.WeeklyStat thisWeekStat = fm.getGameVariables().getLastestStatOfTheWeek();
 
@@ -38,8 +40,14 @@ public class EventManager {
 
 		return true;
 	}
+	
+	public void primeNewEvent(WeeklyStat primeStat)
+	{
+		fm.getGameVariables().incCurrentWeek();		
+		fm.getGameVariables().setThisWeeksStatOfTheWeek(primeStat);
+	}
 
-	private void calculateWeeksScore(PlayerStats pl, 
+	public void calculateWeeksScore(PlayerStats pl, 
 									 WeeklyStat thisWeekStatPri, 
 									 WeeklyStat thisWeekStatSec) 
 	{
@@ -54,7 +62,6 @@ public class EventManager {
 		this.recursiveScore(thisWeekStatSec,pl,thisScoring,toBeat,7);
 
 		pl.addWeeklyScores(thisScoring);
-		System.out.println("SCORING FOR THIS WEEK IS: " + thisScoring);
 	}
 
 	private void recursiveScore(WeeklyStat thisWeekStat, PlayerStats pl, WeeklyScore thisScoring, int toBeat, int scoreModifier) {

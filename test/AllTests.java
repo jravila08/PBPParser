@@ -6,12 +6,13 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 
+import core.VariableHolder;
+import core.VariableHolder.WeeklyStat;
 import event.EventManager;
 import filehandler.FolderManager;
 import filehandler.GameScoreHandler;
 import filehandler.PlayerFileHandler;
 import game.GameVariables;
-import pbpparser.VariableHolder;
 import player.LuckCalculator;
 import player.PlayerStats;
 import player.WeeklyScore;
@@ -108,6 +109,6 @@ public class AllTests {
 	public void testEvent()
 	{
 		EventManager evt = new EventManager();
-		evt.startNewEvent();
+		evt.startNewEvent(WeeklyStat.BRAVE);
 	}
 }

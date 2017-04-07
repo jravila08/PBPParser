@@ -2,7 +2,7 @@ package player;
 
 import java.util.ArrayList;
 
-import pbpparser.VariableHolder;
+import core.VariableHolder;
 
 public class WeeklyScore {
 	

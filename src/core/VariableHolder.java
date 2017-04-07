@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pbpparser;
+package core;
 
 /**
  * I know a singleton is probably overkill here but oh well

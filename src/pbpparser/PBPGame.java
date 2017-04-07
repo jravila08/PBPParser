@@ -15,6 +15,8 @@
  */
 package pbpparser;
 
+import core.VariableHolder;
+
 /**
  * kick off the processing
  * @author jravi

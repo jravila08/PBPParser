@@ -7,7 +7,7 @@ import java.util.Random;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import pbpparser.VariableHolder;
+import core.VariableHolder;
 
 /**
  * This is the class that holds all of the GM info, avail dice rolls, event difficulty, ect

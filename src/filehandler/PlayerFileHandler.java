@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonWriter;
 
-import pbpparser.VariableHolder;
+import core.VariableHolder;
 import player.PlayerStats;
 
 /**
@@ -115,5 +115,31 @@ public class PlayerFileHandler {
 			}
 		}
 		return success;
+	}
+
+	public boolean createNewCharacterDir(PlayerStats player) {
+		if( !player.valid() )
+		{
+			return false;
+		}
+		//check if dir already exists
+		File charDir;
+		
+		charDir = new File(myInstance.getGamePath() + "/" + player.getName() );
+		
+		//return if dir already exists since this means the player is not new
+		if ( !charDir.exists() )
+		{
+			try
+			{
+				charDir.mkdir();
+			} catch( SecurityException e )
+			{
+				log.error("Could not make dir: " + e.getMessage());
+				return false;
+			}
+		}
+		
+		return this.writeOutToFile(player.getName() + "/" + player.getName() + ".txt" , player);
 	}
 }

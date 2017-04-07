@@ -8,8 +8,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import core.VariableHolder;
 import game.GameVariables;
-import pbpparser.VariableHolder;
 import player.PlayerStats;
 
 public class FolderManager {
@@ -71,32 +71,21 @@ public class FolderManager {
 	
 	public boolean createNewCharacterDir(PlayerStats player) 
 	{
-		if( !player.valid() )
-		{
-			return false;
-		}
-		//check if dir already exists
-		File charDir;
+		PlayerFileHandler pFile = new PlayerFileHandler();
+		return pFile.createNewCharacterDir(player);
+	}
+	
+	public void saveAll()
+	{
+		PlayerFileHandler pFile = new PlayerFileHandler();
+		GameScoreHandler gsh = new GameScoreHandler();
 		
-		charDir = new File(myInstance.getGamePath() + "/" + player.getName() );
-		
-		//return if dir already exists since this means the player is not new
-		if ( charDir.exists() )
+		for(PlayerStats s : myPlayerStats)
 		{
-			return false;
-		}
-		
-		try
-		{
-			charDir.mkdir();
-		} catch( SecurityException e )
-		{
-			log.error("Could not make dir: " + e.getMessage());
-			return false;
+			pFile.createNewCharacterDir(s);
 		}
 		
-		PlayerFileHandler pHandler = new PlayerFileHandler();
-		return pHandler.writeOutToFile(player.getName() + "/" + player.getName() + ".txt" , player);
+		gsh.writeOutToFile(myInstance.d20FileName, myGameScore);
 	}
 
 }
