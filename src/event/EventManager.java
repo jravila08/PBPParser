@@ -49,12 +49,19 @@ public class EventManager {
 
 	public void calculateWeeksScore(PlayerStats pl, 
 									 WeeklyStat thisWeekStatPri, 
-									 WeeklyStat thisWeekStatSec) 
+									 WeeklyStat thisWeekStatSec,
+									 boolean postBonus) 
 	{
 		WeeklyScore thisScoring = new WeeklyScore();
 		thisScoring.setLuckCalculator(new LuckCalculator(pl.getLuck()));
 		thisScoring.setPrimaryStatForWeek(thisWeekStatPri);
 		thisScoring.setSecondaryStatForWeek(thisWeekStatSec);
+		thisScoring.setPostingBonus(postBonus);
+
+		if( postBonus )
+		{
+			thisScoring.setScoreForThisWeek(thisScoring.getScoreForThisWeek() + 25);
+		}
 		
 		int toBeat = 10;
 		

@@ -99,7 +99,28 @@ public class ScannerManager {
 		for(PlayerStats player: fm.getPlayerList())
 		{
 			WeeklyStat secondStat = this.getWeeklyStat("What is the secondary stat for "+ player.getName());
-			evt.calculateWeeksScore(player, primeStat, secondStat);
+			
+			boolean postBonus = this.checkForPostBonus(player.getName());
+			
+			evt.calculateWeeksScore(player, primeStat, secondStat, postBonus);
+		}
+	}
+
+	private boolean checkForPostBonus(String name) {
+		System.out.println("Post bonus for " + name + "?(y/n)");
+		
+		String in = sc.next();
+		if( in.equalsIgnoreCase("y") )
+		{
+			return true;
+		}
+		else if ( in.equalsIgnoreCase("n") )
+		{
+			return false;
+		}
+		else
+		{
+			return this.checkForPostBonus(name);
 		}
 	}
 
